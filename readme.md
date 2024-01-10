@@ -13,4 +13,9 @@ Make sure you have installed prerequisites:
 - Python 3.x
 - Git 2.x
 
+## To run the app
+ 
+Debug: `flask run`
+
+Small-scale production: `waitress-serve --listen=127.0.0.1:8080 app:app`
 
