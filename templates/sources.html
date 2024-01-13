@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block header %}
+<div>Sources</div>
+{% endblock %}
+
+{% block content %}
+<div>
+    <ul>
+    {% for source in sources %}
+        <li>{{ source[0] }} - {{ source[1] }}</li>
+    {% endfor %}
+    </ul>
+</div>
+<div>
+    <form method="POST" action=".">
+        <label for="source-title">Title</label>
+        <input id="source-title" name="title" placeholder="Enter the title of the source"></input>
+        <label for="source-author">Author</label>
+        <input id="source-authors" name="authors" placeholder="Enter the authors of the source"></input>
+        <button type="submit">Log in</button>
+    </form>
+</div>
+{% endblock %}
