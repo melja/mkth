@@ -73,6 +73,9 @@ def create_app(test_config=None):
         sourcelist.append((request.form["title"],request.form["authors"]))
         return redirect(url_for("sources"))
         
+    import db
+    db.init_app(app)
+
     return app
 
 app = create_app()
