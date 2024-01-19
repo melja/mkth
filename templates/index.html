@@ -6,4 +6,5 @@
 
 {% block content %}
 <div>Index</div>
+<button id="counter" hx-post="/increment" hx-swap="outerHTML">Count: {{ count }}</button>
 {% endblock %}
