@@ -1,5 +1,5 @@
+from os import walk, path
 import sqlite3
-
 import click
 from flask import current_app, g
 
@@ -19,11 +19,29 @@ def close_db(e=None):
     if db is not None:
         db.close()
 
+def get_user_version(db):
+    return db.execute('PRAGMA user_version;').fetchone()["user_version"]
+
+
 def init_db():
+    # A trivially simple migration strategy:
+    #
+    # The schema version is stored in the SQLIte PRAGMA user_version
+    # List *.sql files in the schema dir with a higher version number than in the database
+    # Apply each one in order to the database and update the user_version PRAGMA
     db = get_db()
 
-    with current_app.open_resource('schema/schema.sql') as f:
-        db.executescript(f.read().decode('utf8'))
+    db_ver = get_user_version(db)
+    files = []
+    for (dirpath, dirnames, filenames) in walk("schema"):
+        files.extend(filenames)
+    
+    allschema = [f for f in files if path.splitext(f)[1].lower() == ".sql"]
+    toapply = sorted([f for f in allschema if int(f.split("_")[0]) > db_ver])
+    for file in toapply:
+        with current_app.open_resource(f"schema/{file}") as f:
+            print(f"Applying schema file {file}")
+            db.executescript(f.read().decode('utf8'))
 
 
 @click.command('init-db')
