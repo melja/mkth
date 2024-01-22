@@ -14,11 +14,21 @@
         <div class="header-test">MKTH0
         {% block header %}
         {% endblock %}
-        <a href="/">home</a>
-        <a href="/login">Log in</a>
+        <a href="/">Welcome</a>
+        <a href="/home">Home Page</a>
         <a href="/sources">Sources</a>
+        {% if session["username"] %}
+        <a href="/logout">Log out</a>
+        {% else %}
+        <a href="/login">Log in</a>
+        {% endif %}
         </div>
     </header>
+    <div>
+        {% for msg in get_flashed_messages() %}
+        <div>{{ msg }}</div>
+        {% endfor %}
+    </div>
     <div>
         {% block content %}
         {% endblock %}

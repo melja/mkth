@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block header %}
+<div>Home</div>
+{% endblock %}
+
+{% block content %}
+<div>Future authenticated home page</div>
+<button id="counter" hx-post="/increment">Count: {{ count }}</button>
+{% endblock %}

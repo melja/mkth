@@ -5,6 +5,10 @@
 {% endblock %}
 
 {% block content %}
+{% if session["username"] %}
+    <div>You are already logged in, {{ username }}</div>
+    <a href="/logout">Log Out</a>
+{% else %}
 <form method="POST" action=".">
     <div>
         <label for="username">Username</label>
@@ -13,7 +17,9 @@
     <div>
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Enter your password"></input>
+        <input type="hidden" id="tourl" name="tourl" value="{{ tourl }}">
     </div>
     <button type="submit">Log in</button>
 </form>
+{% endif %}
 {% endblock %}

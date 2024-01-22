@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_login import login_user, LoginManager, UserMixin
 
 count = 0
@@ -25,49 +25,73 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    #login_manager = LoginManager()
+    #login_manager.init_app(app)
+
+    def validate_login(username, password):
+        if username == "admin":
+            return True
+        return False
 
     sourcelist = [
             ("Serious Research Text", "Dr Oswald Busyson, MD"),
             ("Current Health Claims, Volume 13", "Martha Marysdottir-Winthorpe"),
             ("Prominent Science Today", "Editors")
         ]
-    
-    def increment_count(session):
+      
+    @app.route("/increment", methods=["POST"])
+    def increment():
         if "count" in session:
             count = session["count"] + 1
         else:
-            count = session["count"] = 0
+            count = 0
         session["count"] = count
-        return count
+        return f'Count: {count}'
 
     @app.route("/")
     def index():
+        return render_template("index.html")
+
+    @app.route("/login/", methods=["GET", "POST"])
+    def login():
+        tourl = request.args.get('next')
+        if not tourl:
+            tourl = url_for("home")
+        print(f"tourl { tourl }")
+        if request.method == "GET":
+            return render_template("login.html", error=False, tourl=tourl)
+        if request.method == "POST":
+            username = request.form["username"]
+            password = request.form["password"]
+            tourl = request.form["tourl"]
+            if validate_login(username, password):
+                flash('You were successfully logged in')
+                session["username"] = username
+                return redirect(tourl)
+            session["username"] = None
+            app.logger.warning(f"Failed login for username \"{ username }\"")
+            flash('Invalid username or password')
+            return render_template("login.html", error=True)
+        
+    @app.route("/logout/", methods=["GET"])
+    def logout():
+        session["username"] = None
+        return redirect(url_for("login"))
+        
+    @app.route("/home/", methods=["GET"])
+    def home():
+        if not session["username"]:
+            return redirect(url_for("login", next="home"))
         if "count" in session:
             count = session["count"]
         else:
             count = 0
-        return render_template("index.html", count=count)
-    
-    @app.route("/increment", methods=["POST"])
-    def increment():
-        count = increment_count(session)
-        return f'<button id="counter" hx-post="/increment" hx-swap="outerHTML">Count: {count}</button>'
+        return render_template("home.html", count=count)
 
-    @app.route("/login/", methods=["GET", "POST"])
-    def login():
-        if request.method == "GET":
-            return render_template("login.html", error=False)
-        if request.method == "POST":
-            if request.form["username"] != "admin":
-                return render_template("login.html", error=True)
-            return redirect(url_for("index"))
-        
     @app.route("/sources/", methods=["GET", "POST"])
     def sources():
+        if not session["username"]:
+            return redirect(url_for("login", next=url_for("sources")))
         if request.method=="GET":
             return render_template("sources.html", sources=sourcelist)
         sourcelist.append((request.form["title"],request.form["authors"]))
