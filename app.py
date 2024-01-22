@@ -80,8 +80,8 @@ def create_app(test_config=None):
         
     @app.route("/home/", methods=["GET"])
     def home():
-        if not session["username"]:
-            return redirect(url_for("login", next="home"))
+        if "username" not in session or  not session["username"]:
+            return redirect(url_for("login", next=url_for("home")))
         if "count" in session:
             count = session["count"]
         else:
@@ -90,7 +90,7 @@ def create_app(test_config=None):
 
     @app.route("/sources/", methods=["GET", "POST"])
     def sources():
-        if not session["username"]:
+        if "username" not in session or not session["username"]:
             return redirect(url_for("login", next=url_for("sources")))
         if request.method=="GET":
             return render_template("sources.html", sources=sourcelist)
