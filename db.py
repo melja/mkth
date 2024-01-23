@@ -42,13 +42,15 @@ def init_db():
         with current_app.open_resource(f"schema/{file}") as f:
             print(f"Applying schema file {file}")
             db.executescript(f.read().decode('utf8'))
+    new_ver = get_user_version(db)
+    return db_ver, new_ver
 
 
 @click.command('init-db')
 def init_db_command():
-    """Clear the existing data and create new tables."""
-    init_db()
-    click.echo('Initialized the database.')
+    click.echo("Looking for schema files to apply to the database.")
+    old_ver, new_ver = init_db()
+    click.echo(f"Done updating schema. Existing version {old_ver}, current version {new_ver}.")
 
 def init_app(app):
     app.teardown_appcontext(close_db)
