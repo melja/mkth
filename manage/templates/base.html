@@ -14,14 +14,17 @@
         <div class="header-test">MKTH0
         {% block header %}
         {% endblock %}
-        <a href="/">Welcome</a>
-        <a href="/home">Home Page</a>
-        <a href="/sources">Sources</a>
-        {% if session["username"] %}
-        <a href="/logout">Log out</a>
-        {% else %}
-        <a href="/login">Log in</a>
-        {% endif %}
+        <nav>
+            <a href="/">Welcome</a>
+            <a href="/home">Home Page</a>
+            <a href="/sources">Sources</a>
+            <a href="/authors">Authors</a>
+            {% if session["username"] %}
+            <a href="/logout">Log out</a>
+            {% else %}
+            <a href="/login">Log in</a>
+            {% endif %}
+        </nav>
         </div>
     </header>
     <div>

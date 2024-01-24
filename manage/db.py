@@ -1,4 +1,4 @@
-from os import walk, path
+from os import walk, path, getcwd
 import sqlite3
 import click
 from flask import current_app, g
@@ -33,8 +33,9 @@ def init_db():
 
     db_ver = get_user_version(db)
     files = []
-    for (dirpath, dirnames, filenames) in walk("schema"):
+    for (dirpath, dirnames, filenames) in walk("manage/schema"):
         files.extend(filenames)
+    print(getcwd())
     
     allschema = [f for f in files if path.splitext(f)[1].lower() == ".sql"]
     toapply = sorted([f for f in allschema if int(f.split("_")[0]) > db_ver])
