@@ -10,30 +10,25 @@
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
 <body>
-    <header>
-        <div class="header-test">MKTH0
-        {% block header %}
-        {% endblock %}
-        <nav>
-            <a href="/">Welcome</a>
-            <a href="/home">Home Page</a>
-            <a href="/sources">Sources</a>
-            <a href="/authors">Authors</a>
-            {% if session["username"] %}
-            <a href="/logout">Log out</a>
-            {% else %}
-            <a href="/login">Log in</a>
-            {% endif %}
-        </nav>
-        </div>
-    </header>
-    <div>
+    <nav>
+        <h1>mkth0</h1>
+        <ul>
+            {% if g.user %}
+            <li><span>{{ g.user['username'] }}</span>
+            <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+                {% else %}
+            <li><a href="{{ url_for('auth.register') }}">Register</a>
+            <li><a href="{{ url_for('auth.login') }}">Log In</a>
+                {% endif %}
+        </ul>
+    </nav>
+    <section class="content">
+        <header>
+            {% block header %}{% endblock %}
+        </header>
         {% for msg in get_flashed_messages() %}
-        <div>{{ msg }}</div>
+        <div class="flash">{{ msg }}</div>
         {% endfor %}
-    </div>
-    <div>
-        {% block content %}
-        {% endblock %}
-    </div>
+        {% block content %}{% endblock %}
+    </section>
 </body>

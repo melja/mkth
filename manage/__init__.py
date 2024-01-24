@@ -1,7 +1,6 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_login import login_user, LoginManager, UserMixin
-from . import db
 
 def create_app(test_config=None):
     # create and configure the app
@@ -27,9 +26,9 @@ def create_app(test_config=None):
     #login_manager = LoginManager()
     #login_manager.init_app(app)
 
-    @app.errorhandler(404)
-    def not_found(error):
-        return render_template('error.html'), 404
+    # @app.errorhandler(404)
+    # def not_found(error):
+    #     return render_template('error.html'), 404
         
     def validate_login(username, password):
         if username == "admin":
@@ -109,16 +108,15 @@ def create_app(test_config=None):
         sourcelist.append((request.form["title"],request.form["authors"]))
         return redirect(url_for("sources"))
         
-
-    @app.route("/authors/", methods=["GET", "POST"])
-    def authors():
-        if "username" not in session:
-            return redirect(url_for("login", next=url_for("authors")))
-        if request.method=="GET":
-            return render_template("authors.html", authors=authorlist)
-        authorlist.append(request.form["name"])
-        return redirect(url_for("authors"))
-
+    from . import db
     db.init_app(app)
+
+    from . import auth
+    app.register_blueprint(auth.bp)
+
+    from . import content
+    app.register_blueprint(content.bp)
+    # app.add_url_rule('/', endpoint='index')
+
 
     return app

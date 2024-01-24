@@ -1,19 +1,19 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block header %}
-<span>Authors</span>
+  <h1>{% block title %}Authors{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
 <div>
     <ul>
     {% for author in authors %}
-        <li>{{ author }}</li>
+        <li>{{ author['name'] }}</li>
     {% endfor %}
     </ul>
 </div>
 <div>
-    <form method="POST" action=".">
+    <form method="POST">
         <label for="author-name">Name</label>
         <input id="author-name" name="name" placeholder="Enter the name of the author"></input>
         <button type="submit">Submit</button>
