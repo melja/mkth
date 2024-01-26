@@ -1,0 +1,8 @@
+{% for author in authors %}
+<tr id="author{{ author['id'] }}_li">
+    <td>{{ author['name'] }}</td>
+    <td>
+        <a hx-get="{{ url_for('author.edit', id=author['id']) }}" hx-target="#author{{ author['id'] }}_li">Edit</a>
+    </td>
+</tr>
+{% endfor %}

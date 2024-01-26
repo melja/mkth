@@ -19,6 +19,21 @@ def index():
     ).fetchall()
     return render_template("author/list.html", authors=authors)
 
+@bp.route("/search", methods=("POST",))
+@login_required
+def search():
+    search = request.form.get("search", default="", type=str)
+    db = get_db()
+    authors = db.execute(
+        "SELECT id, name"
+        " FROM authors"
+        " WHERE name LIKE ?"
+        " ORDER BY name",
+        ("%"+search+"%",)
+    ).fetchall()
+    return render_template("author/search.html", authors=authors)
+
+
 def get_author(id):
     author = get_db().execute(
         "SELECT a.id, a.name, a.creation_date"
