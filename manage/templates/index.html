@@ -5,5 +5,8 @@
 {% endblock %}
 
 {% block content %}
+{% for msg in get_flashed_messages() %}
+<div class="flash">{{ msg }}</div>
+{% endfor %}
 <div>Unathenticated Welcome</div>
 {% endblock %}

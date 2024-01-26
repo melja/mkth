@@ -1,0 +1,20 @@
+{% for msg in get_flashed_messages() %}
+<div class="flash">{{ msg }}</div>
+{% endfor %}
+<form>
+    <label for="source-id">ID</label>
+    <input id="source-id" name="id" readonly value="{{ source['id'] }}"></input>
+    <label for="source-title">Title</label>
+    <input id="source-title" name="title" value="{{ source['title'] }}"></input>
+    <label for="source-author">Author</label>
+    <select id="source-author" name="authorid">
+        {% if authors %}
+        {% for author in authors %}
+        <option value="{{author['id']}}" {% if source['authorid']==author['id'] %} selected {% endif %}>{{ author["name"] }}</option>
+        {% endfor %}
+        {% endif %}
+    </select>
+    <button type="submit" hx-post="{{ url_for('source.edit', id=source['id']) }}" hx-target="#content_body">Submit</button>
+    <button type="button" hx-post="{{ url_for('source.delete', id=source['id']) }}" hx-target="#content_body">Delete</button>
+    <button type="reset" hx-get="{{ url_for('source.index') }}" hx-target="#content_body">Cancel</button>
+</form>

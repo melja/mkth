@@ -1,0 +1,12 @@
+{% for msg in get_flashed_messages() %}
+<div class="flash">{{ msg }}</div>
+{% endfor %}
+<button hx-get="{{ url_for('author.create', id=-1) }}" hx-swap="outerHTML">Add</button>
+<ul>
+    {% for author in authors %}
+    <li id="author{{ author['id'] }}_li">
+        {{ author['name'] }}
+        <a hx-get="{{ url_for('author.edit', id=author['id']) }}" hx-target="#author{{ author['id'] }}_li">Edit</a>
+    </li>
+    {% endfor %}
+</ul>
