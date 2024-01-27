@@ -60,7 +60,7 @@ def login():
             session['user_id'] = user['id']
             if next_url:
                 return redirect(next_url)
-            return redirect(url_for('content'))
+            return redirect(url_for('content.index'))
 
         flash(error)
 
