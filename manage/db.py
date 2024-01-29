@@ -45,25 +45,21 @@ def init_db():
     new_ver = get_user_version(db)
     return db_ver, new_ver
 
-def drop_tables():
-    db = get_db()
-    tables = ["users","sources","authors"]
-    for table in tables:
-        cmd = f"DROP TABLE IF EXISTS {table};"
-        db.execute(cmd)
-    db.execute("PRAGMA user_version=0;")
-
 @click.command('init-db')
 def init_db_command():
+    click.echo("Dropping and recreating all schema.")
+    db = get_db()
+    with current_app.open_resource(f"schema/0_initial_schema.sql") as f:
+        db.executescript(f.read().decode('utf8'))
+
+@click.command('migrate-db')
+def migrate_db_command():
     click.echo("Looking for schema files to apply to the database.")
     old_ver, new_ver = init_db()
     click.echo(f"Done updating schema. Existing version {old_ver}, current version {new_ver}.")
 
 @click.command('load-test-data')
 def load_test_data_command():
-    #click.echo("Clearing and re-creating the database schema.")
-    #drop_tables()
-    #init_db()
     click.echo("Loading test data into the database.")
     from . import test_data
     test_data.load_test_data(get_db())
@@ -72,3 +68,4 @@ def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
     app.cli.add_command(load_test_data_command)
+    app.cli.add_command(migrate_db_command)
