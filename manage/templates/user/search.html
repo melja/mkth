@@ -1,0 +1,22 @@
+{% for user in users %}
+<tr id="user{{ user['user_id'] }}_tr">
+    <td>{{ user['username'] }}</td>
+    <td>{{ user['display_name'] }}</td>
+    <td>{{ user['email'] }}</td>
+    <td>{{ user['timezone'] }}</td>
+    <td>{{ user['display_language'] }}</td>
+    <td>{{ user['access_enabled'] }}</td>
+    <td>
+        <a hx-get="{{ url_for('user.edit', id=user['user_id']) }}" hx-target="#content_body">Edit</a>
+    </td>
+    <td>
+        {% if user['username'] != g.user['username'] %}
+            {% if user['access_enabled'] == 'Y' %}
+            <a hx-post="{{ url_for('user.disable', id=user['user_id']) }}" hx-target="#user{{ user['user_id'] }}_tr" hx-swap="outerHTML">Disable</a>
+            {% else %}
+            <a hx-post="{{ url_for('user.enable', id=user['user_id']) }}" hx-target="#user{{ user['user_id'] }}_tr" hx-swap="outerHTML">Enable</a>
+            {% endif %}
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}

@@ -57,9 +57,9 @@ CREATE TABLE IF NOT EXISTS users (
   access_enabled CHAR(1) NOT NULL DEFAULT 'Y',
   password TEXT NULL,
   password_last_updated TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  display_name TEXT UNIQUE NOT NULL,
+  display_name TEXT UNIQUE NULL,
   preferred_name TEXT NULL,
-  email TEXT NOT NULL,
+  email TEXT NULL,
   timezone TEXT NULL,
   display_language TEXT NULL 
 );

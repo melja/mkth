@@ -23,7 +23,7 @@ def close_db(e=None):
 def get_user_version(db):
     return db.execute('PRAGMA user_version;').fetchone()["user_version"]
 
-def upsert_data_from_json(json_data):
+def upsert_row_data_from_json(json_data):
     db = get_db()
     db_version = get_user_version(db)
     if "schema_version" not in json_data:
@@ -46,7 +46,6 @@ def upsert_data_from_json(json_data):
         updates = ', '.join(list((f"{col}=excluded.{col}" for col in columns if col not in key_columns)))
         upsert = f"INSERT INTO {tablename} ( {', '.join(columns)} ) VALUES ( {tokens} ) ON CONFLICT ( {', '.join(key_columns)} ) DO UPDATE SET { updates};"
         row_data = [tuple(row) for row in table_data["row_data"]]
-        #print(upsert)
         db.executemany(upsert, row_data)
         db.commit()
 
@@ -62,6 +61,7 @@ def migrate_db():
     # The schema version is stored in the SQLIte PRAGMA user_version
     # List *.sql files in the schema dir with a higher version number than in the database
     # Apply each one in order to the database and update the user_version PRAGMA
+    click.echo("Looking for schema files to apply to the database.")
     db = get_db()
 
     db_ver = get_user_version(db)
@@ -77,40 +77,41 @@ def migrate_db():
             db.executescript(f.read().decode('utf8'))
     db.commit()
     new_ver = get_user_version(db)
-    return db_ver, new_ver
+    click.echo(f"Done updating schema. Existing version {db_ver}, current version {new_ver}.")
 
 def load_reference_data():
-    files = []
-    for (dirpath, dirnames, filenames) in walk("manage/reference_data"):
-        files.extend(filenames)
-    
-    data_files = [f for f in files if path.splitext(f)[1].lower() == ".json"]
-    for file in data_files:
-        with current_app.open_resource(f"reference_data/{file}") as f:
-            print(f"Loading data from {file}")
-            str_data = f.read()
-            json_data = json.loads(str_data)
-            upsert_data_from_json(json_data)
+    click.echo("Loading reference data into the database.")
+    try:
+        files = []
+        for (dirpath, dirnames, filenames) in walk("manage/reference_data"):
+            files.extend(filenames)
+        
+        data_files = [f for f in files if path.splitext(f)[1].lower() == ".json"]
+        for file in data_files:
+            with current_app.open_resource(f"reference_data/{file}") as f:
+                print(f"Loading data from {file}")
+                str_data = f.read()
+                json_data = json.loads(str_data)
+                upsert_row_data_from_json(json_data)
+        click.echo("Successfully loaded data")
+    except ValueError as e:
+        print(f"IMPORT ERROR: {e}") 
 
 @click.command('init-db')
 def init_db_command():
     click.echo("Dropping and recreating all schema.")
     init_db()
+    migrate_db()
+    load_reference_data()
+    click.echo("Done initializing the database.")
 
 @click.command('migrate-db')
 def migrate_db_command():
-    click.echo("Looking for schema files to apply to the database.")
-    old_ver, new_ver = migrate_db()
-    click.echo(f"Done updating schema. Existing version {old_ver}, current version {new_ver}.")
+    migrate_db()
 
 @click.command('load-ref-data')
 def load_ref_data_command():
-    click.echo("Loading reference data into the database.")
-    try:
-        load_reference_data()
-        click.echo("Successfully loaded data")
-    except ValueError as e:
-        print(f"IMPORT ERROR: {e}") 
+    load_reference_data()
 
 @click.command('load-test-data')
 def load_test_data_command():

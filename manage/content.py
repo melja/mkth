@@ -8,7 +8,7 @@ from manage.db import get_db
 
 bp = Blueprint("content", __name__, url_prefix="/content")
 
-types = {"author":"Authors","source":"Sources"}
+types = {"user":"Users"}#,"author":"Authors","source":"Sources"}
 
 @bp.route("/", methods=["GET"])
 @login_required

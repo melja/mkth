@@ -1,0 +1,27 @@
+{% for msg in get_flashed_messages() %}
+<div class="flash">{{ msg }}</div>
+{% endfor %}
+<div>
+        Search Users
+        <span class="htmx-indicator">
+            Searching...
+        </span>
+    <input class="form-control" type="search" name="search" placeholder="Begin Typing To Search Users..."
+        hx-post="/user/search" hx-trigger="input changed delay:500ms, search" hx-target="#search-results"
+        hx-indicator=".htmx-indicator">
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Timezone</th>
+            <th>Language</th>
+            <th>Enabled</th>
+        </tr>
+    </thead>
+    <tbody id="search-results">
+        {% include "user/search.html" %}
+    </tbody>
+</table>
