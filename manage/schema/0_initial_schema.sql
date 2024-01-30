@@ -13,21 +13,18 @@ DROP TABLE IF EXISTS name_formats;
 
 CREATE TABLE IF NOT EXISTS name_formats (
     name_format TEXT NOT NULL PRIMARY KEY,
-    format_description TEXT NOT NULL UNIQUE
+    description TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS name_part_types (
     name_part_type TEXT NOT NULL PRIMARY KEY,
-    description TEXT NOT NULL,
-    part_position TEXT NOT NULL,
-    CHECK (part_position) 
+    description TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS name_format_part_types (
     name_format TEXT NOT NULL,
     name_part_type TEXT NOT NULL,
     part_ordinal INTEGER NOT NULL,
-    allow_multiple_instances CHAR(1) NOT NULL DEFAULT 'N',
     UNIQUE (name_format, part_ordinal),
     PRIMARY KEY (name_format, name_part_type),
     FOREIGN KEY (name_format) REFERENCES name_formats (name_format)

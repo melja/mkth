@@ -1,0 +1,152 @@
+{
+    "data_format": 0,
+    "schema_version": 1,
+    "table_data": [
+        {
+            "tablename": "name_formats",
+            "columns": [
+                "name_format",
+                "description"
+            ],
+            "key_columns": [
+                "name_format"
+            ],
+            "row_data": [
+                [
+                    "western",
+                    "Customary western european name order, with first name followed by last name"
+                ],
+                [
+                    "mononym",
+                    "A single name"
+                ],
+                [
+                    "eastern",
+                    "Customary eastern name order, with last name followed by first name"
+                ]
+            ]
+        },
+        {
+            "tablename": "name_part_types",
+            "columns": [
+                "name_part_type",
+                "description"
+            ],
+            "key_columns": [
+                "name_part_type"
+            ],
+            "row_data": [
+                [
+                    "first",
+                    "First or given name"
+                ],
+                [
+                    "middle",
+                    "Middle or additional name or initial"
+                ],
+                [
+                    "last",
+                    "Last or family name"
+                ],
+                [
+                    "prefix",
+                    "Title, rank, affiliation, or honor"
+                ],
+                [
+                    "suffix",
+                    "Suffix, degree, or generation"
+                ],
+                [
+                    "patronymic",
+                    "Patronymic name or initial"
+                ],
+                [
+                    "matronymic",
+                    "Matronymic name or initial"
+                ],
+                [
+                    "nickname",
+                    "Nickname or preferred alternate name"
+                ],
+                [
+                    "angl_first",
+                    "Anglicized first or given name"
+                ]
+            ]
+        },
+        {
+            "tablename": "name_format_part_types",
+            "columns": [
+                "name_format",
+                "name_part_type",
+                "part_ordinal"
+            ],
+            "key_columns": [
+                "name_format",
+                "name_part_type"
+            ],
+            "row_data": [
+                [
+                    "western",
+                    "prefix",
+                    0
+                ],
+                [
+                    "western",
+                    "first",
+                    1
+                ],
+                [
+                    "western",
+                    "middle",
+                    2
+                ],
+                [
+                    "western",
+                    "last",
+                    3
+                ],
+                [
+                    "western",
+                    "suffix",
+                    4
+                ],
+                [
+                    "mononym",
+                    "prefix",
+                    0
+                ],
+                [
+                    "mononym",
+                    "first",
+                    1
+                ],
+                [
+                    "mononym",
+                    "suffix",
+                    2
+                ],
+                [
+                    "eastern",
+                    "prefix",
+                    0
+                ],
+                [
+                    "eastern",
+                    "last",
+                    1
+                ],
+                [
+                    "eastern",
+                    "first",
+                    2
+                ],
+                [
+                    "eastern",
+                    "suffix",
+                    3
+                ]
+            ]
+        }
+    ]
+}

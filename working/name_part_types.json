@@ -1,0 +1,32 @@
+{
+    "name_part_types": [
+        {
+            "name_part_type": "first",
+            "description": "First or given name"
+        },{
+            "name_part_type": "middle",
+            "description": "Middle or additional name or initial"
+        },{
+            "name_part_type": "last",
+            "description": "Last or family name"
+        },{
+            "name_part_type": "prefix",
+            "description": "Title, rank, affiliation, or honor"
+        },{
+            "name_part_type": "suffix",
+            "description": "Suffix, degree, or generation"
+        },{
+            "name_part_type": "patronymic",
+            "description":"Patronymic name or initial"
+        },{
+            "name_part_type": "matronymic",
+            "description": "Matronymic name or initial"
+        },{
+            "name_part_type": "nickname",
+            "description": "Nickname or preferred alternate name"
+        },{
+            "name_part_type": "angl_first",
+            "description": "Anglicized first or given name"
+        }
+    ]
+}

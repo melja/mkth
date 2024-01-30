@@ -1,0 +1,16 @@
+{
+    "name_formats": [
+        {
+            "name_format": "western",
+            "description": "Customary western european name order, with first name followed by last name"
+        },
+        {
+            "name_format": "mononym",
+            "description": "A single name"
+        },
+        {
+            "name_format": "eastern",
+            "description": "Customary eastern name order, with last name followed by first name"
+        }
+    ]
+}
