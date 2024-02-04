@@ -1,12 +1,9 @@
 {% extends "base.html" %}
 
 {% block header %}
-<span>Welcome</span>
+<span>Welcome header</span>
 {% endblock %}
 
 {% block content %}
-{% for msg in get_flashed_messages() %}
-<div class="flash">{{ msg }}</div>
-{% endfor %}
-<div>Unathenticated Welcome</div>
+<div>Unathenticated homepage</div>
 {% endblock %}

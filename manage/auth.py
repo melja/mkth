@@ -47,7 +47,7 @@ def login():
         db = get_db()
         error = None
         user = db.execute(
-            'SELECT user_id, username, password, access_enabled FROM users WHERE username = ?', (username,)
+            'SELECT id, username, password, access_enabled FROM users WHERE username = ?', (username,)
         ).fetchone()
 
         if user is None:
@@ -59,7 +59,7 @@ def login():
 
         if error is None:
             session.clear()
-            session['user_id'] = user['user_id']
+            session['user_id'] = user['id']
             if next_url:
                 return redirect(next_url)
             return redirect(url_for('content.index'))
@@ -76,7 +76,7 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = get_db().execute(
-            'SELECT * FROM users WHERE user_id = ?', (user_id,)
+            'SELECT * FROM users WHERE id = ?', (user_id,)
         ).fetchone()
 
 @bp.route('/logout')

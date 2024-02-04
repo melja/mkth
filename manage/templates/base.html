@@ -8,7 +8,7 @@
     <title>mkth0</title>
     <!-- <link rel="stylesheet" href="/static/styles.css"> -->
     <link rel="stylesheet" href="/static/entireframework.min.css">
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="/static/htmx.min.js"></script>
 </head>
 
 <body>
@@ -17,7 +17,8 @@
             <a class="pagename current" href="/">mkth0</a>
             {% if g.user %}
             <a class="current" href="{{ url_for('content.index') }}">Content</a>
-            <a href="{{ url_for('user.edit', id=g.user['user_id']) }}">{{ g.user['username'] }}</a>
+            <span style="padding-right: 1em; border-width: 2px;">-</span>
+            <a href="{{ url_for('user.profile') }}">Profile ({{ g.user['username'] }})</a>
             <a href="{{ url_for('auth.logout') }}">Log Out</a>
             {% else %}
             <a href="{{ url_for('auth.register') }}">Register</a>
@@ -27,10 +28,13 @@
     </nav>
     <button class="btn-close btn btn-sm">×</button>
     <div class="container">
+        <header>
+            {% block header %}{% endblock %}
+        </header>
+        {% for msg in get_flashed_messages() %}
+        <div class="msg">{{ msg }}</div>
+        {% endfor %}
         <section class="content">
-            <header>
-                {% block header %}{% endblock %}
-            </header>
             {% block content %}{% endblock %}
         </section>
     </div>

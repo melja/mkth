@@ -5,16 +5,17 @@ from werkzeug.exceptions import abort
 
 from manage.auth import login_required
 from manage.db import get_db
+import zoneinfo
 
 bp = Blueprint("user", __name__, url_prefix="/user")
 
 
 def get_user(id):
     user = get_db().execute(
-        "SELECT user_id, username, creation_date, access_enabled, "
+        "SELECT id, username, creation_date, access_enabled, "
         " password_last_updated, display_name, preferred_name, "
         " email, timezone, display_language "
-        " FROM users WHERE user_id = ?",
+        " FROM users WHERE id = ?",
         (id,)
     ).fetchone()
 
@@ -28,11 +29,18 @@ def get_user(id):
 def index():
     db = get_db()
     users = db.execute(
-        "SELECT user_id, username, access_enabled, display_name, email, timezone, display_language"
+        "SELECT id, username, access_enabled, display_name, email, timezone, display_language"
         " FROM users"
         " ORDER BY username"
     ).fetchall()
     return render_template("user/list.html", users=users)
+
+@bp.route("/profile")
+@login_required
+def profile():
+    db = get_db()
+    timezones=sorted(zoneinfo.available_timezones())
+    return render_template("profile.html", timezones=timezones)
 
 @bp.route("/search", methods=("POST",))
 @login_required
@@ -40,7 +48,7 @@ def search():
     search = request.form.get("search", default="", type=str)
     db = get_db()
     users = db.execute(
-        "SELECT user_id, username, access_enabled, display_name, email, timezone, display_language"
+        "SELECT id, username, access_enabled, display_name, email, timezone, display_language"
         " FROM users"
         " WHERE username LIKE :search"
         " OR display_name LIKE :search"
@@ -74,7 +82,7 @@ def edit(id):
             try:
                 db.execute(
                     "UPDATE users SET username = ?, display_name = ?, email = ?, timezone = ?, display_language = ?"
-                    " WHERE user_id = ?",
+                    " WHERE id = ?",
                     (username, display_name, email, timezone, display_language, id)
                 )
                 db.commit()
@@ -101,7 +109,7 @@ def disable(id):
         db = get_db()
         try:
             db.execute(
-                "UPDATE users SET access_enabled = 'N' WHERE user_id = ?",
+                "UPDATE users SET access_enabled = 'N' WHERE id = ?",
                 (id,)
             )
             db.commit()
@@ -130,7 +138,7 @@ def enable(id):
         db = get_db()
         try:
             db.execute(
-                "UPDATE users SET access_enabled = 'Y' WHERE user_id = ?",
+                "UPDATE users SET access_enabled = 'Y' WHERE id = ?",
                 (id,)
             )
             db.commit()

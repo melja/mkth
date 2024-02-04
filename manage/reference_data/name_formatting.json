@@ -1,6 +1,15 @@
 {
     "data_format": 0,
     "schema_version": 1,
+    "datasource": {
+        "id": "mkth",
+        "version": "0",
+        "title": "MKTH internal reference data",
+        "retrieved": "2024-02-04T03:33:43.472085+00:00",
+        "steward": "John Melendy",
+        "license": "N/A",
+        "url": "N/A"
+    },
     "table_data": [
         {
             "tablename": "name_formats",
