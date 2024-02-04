@@ -1,9 +1,9 @@
-/.venv
-__pycache__
-/instance
+.venv/
+__pycache__/
+instance/
 config.py
 *.db
 *.sqlite
-/temp
-/working
+temp/
+working/
 .DS_Store
