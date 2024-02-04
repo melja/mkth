@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block header %}
+{{ g.user['display_name'] }} Profile
+{% endblock %}
+
+{% block content %}
+<div id="content_body">
+    <div>ID: {{ g.user['id'] }}</div>
+    <div>Username: {{ g.user['username'] }}</div>
+    <div>Email: {{ g.user['email'] }}</div>
+    <div>Display Name: {{ g.user['display_name'] }}</div>
+    <div>
+        Timezone:
+        <select>
+            {% for tz in timezones %}
+            <option value="{{ tz }}" {% if g.user['timezone'] == tz %} selected {% endif %} >{{ tz }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>Language: {{ g.user['display_language'] }}</div>
+</div>
+{% endblock %}

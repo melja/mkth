@@ -33,7 +33,7 @@ def register():
                 error = f"User {username} is already registered."
             else:
                 return redirect(url_for("auth.login"))
-
+        print(error)
         flash(error)
 
     return render_template('auth/register.html')
@@ -47,13 +47,15 @@ def login():
         db = get_db()
         error = None
         user = db.execute(
-            'SELECT * FROM users WHERE username = ?', (username,)
+            'SELECT id, username, password, access_enabled FROM users WHERE username = ?', (username,)
         ).fetchone()
 
         if user is None:
             error = 'Incorrect username.'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
+        elif user['access_enabled'] != 'Y':
+            error = 'User disabled'
 
         if error is None:
             session.clear()

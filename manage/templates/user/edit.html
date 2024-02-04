@@ -1,0 +1,18 @@
+<form>
+    <label for="user_id">ID</label>
+    <input id="user_id" name="id" readonly value="{{ user['id'] }}"></input>
+    <label for="username">Username</label>
+    <input id="username" name="username" value="{{ user['username'] }}"></input>
+    <label for="email">Email</label>
+    <input id="email" name="email" value="{{ user['email'] }}"></input>
+    <label for="display_name">Display Name</label>
+    <input id="display_name" name="display_name" value="{{ user['display_name'] }}"></input>
+    <label for="timezone">Time Zone</label>
+    <input id="timezone" name="timezone" value="{{ user['timezone'] }}"></input>
+    <label for="display_language">Display Language</label>
+    <input id="display_language" name="display_language" value="{{ user['display_language'] }}"></input>
+    <button type="submit" hx-post="{{ url_for('user.edit', id=user['id']) }}"
+        hx-target="#content_body">Submit</button>
+    <!-- <button type="button" hx-post="{{ url_for('user.disable', id=user['id']) }}" hx-target="#content_body">Disable</button> -->
+    <button type="reset" hx-get="{{ url_for('user.index') }}" hx-target="#content_body">Cancel</button>
+</form>

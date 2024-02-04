@@ -36,8 +36,8 @@ def search():
 
 def get_author(id):
     author = get_db().execute(
-        "SELECT a.id, a.name, a.creation_date"
-        " FROM authors a WHERE a.id = ?",
+        "SELECT id, name, creation_date, last_updated, user_id"
+        " FROM authors WHERE id = ?",
         (id,)
     ).fetchone()
 
