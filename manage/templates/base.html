@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>mkth0</title>
+    <!-- if session not set, skip library?  -->
     <!-- <link rel="stylesheet" href="/static/styles.css"> -->
     <link rel="stylesheet" href="/static/entireframework.min.css">
     <script src="/static/htmx.min.js"></script>
@@ -17,7 +18,7 @@
             <a class="pagename current" href="/">mkth0</a>
             {% if g.user %}
             <a class="current" href="{{ url_for('content.index') }}">Content</a>
-            <span style="padding-right: 1em; border-width: 2px;">-</span>
+            <span style="padding-right: 1em;">-</span>
             <a href="{{ url_for('user.profile') }}">Profile ({{ g.user['username'] }})</a>
             <a href="{{ url_for('auth.logout') }}">Log Out</a>
             {% else %}

@@ -7,13 +7,13 @@
     <td>{{ user['display_language'] }}</td>
     <td>{{ user['access_enabled'] }}</td>
     <td>
-        <a hx-get="{{ url_for('user.edit', id=user['id']) }}" hx-target="#content_body">Edit</a>
+        <a class="btn btn-sm btn-a smooth" hx-get="{{ url_for('user.edit', id=user['id']) }}" hx-target="#content_body">Edit</a>
         {% if user['username'] != g.user['username'] %}
         {% if user['access_enabled'] == 'Y' %}
-        <a hx-post="{{ url_for('user.disable', id=user['id']) }}" hx-target="#user{{ user['id'] }}_tr"
+        <a class="btn btn-sm btn-c smooth" hx-post="{{ url_for('user.disable', id=user['id']) }}" hx-target="#user{{ user['id'] }}_tr"
             hx-swap="outerHTML">Disable</a>
         {% else %}
-        <a hx-post="{{ url_for('user.enable', id=user['id']) }}" hx-target="#user{{ user['id'] }}_tr"
+        <a class="btn btn-sm btn-b smooth" hx-post="{{ url_for('user.enable', id=user['id']) }}" hx-target="#user{{ user['id'] }}_tr"
             hx-swap="outerHTML">Enable</a>
         {% endif %}
         {% endif %}

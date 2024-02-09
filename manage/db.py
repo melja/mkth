@@ -137,7 +137,13 @@ def load_test_users():
                "scrypt:32768:8:1$GHtkCim9P3USWnud$da12c3c1c701ef7c7775041cd4f9585287a930bf0e810d1d741ff60b035689ad3799a33a437f4e18cc0f3b6610905f772b6cf88c1c87ebdc95983e17dcf18ea1",
                "John Melendy",
                "US/Pacific",
-               "US/en",)]
+               "US/en",),
+               ("test",
+               "test@meljh.com",
+               "scrypt:32768:8:1$GHtkCim9P3USWnud$da12c3c1c701ef7c7775041cd4f9585287a930bf0e810d1d741ff60b035689ad3799a33a437f4e18cc0f3b6610905f772b6cf88c1c87ebdc95983e17dcf18ea1",
+               "Test User",
+               "Europe/London",
+               "GB/en",)]
     db.executemany("INSERT INTO users (username, email, password, display_name, timezone, display_language) "
                " VALUES ( ?, ?, ?, ?, ?, ?) "
                " ON CONFLICT(username) DO NOTHING "
