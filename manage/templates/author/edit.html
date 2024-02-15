@@ -6,9 +6,9 @@
         <label for="author-id">ID</label>
         <input id="author-id" name="id" readonly value="{{ author['id'] }}"></input>
         <label for="author-name">Name</label>
-        <input id="author-name" name="name" value="{{ author['name'] }}"></input>
-        <button type="submit" hx-post="{{ url_for('author.edit', id=author['id']) }}" hx-target="#content_body">Submit</button>
-        <button type="button" hx-post="{{ url_for('author.delete', id=author['id']) }}" hx-target="#content_body">Delete</button>
-        <button type="reset" hx-get="{{ url_for('author.index') }}" hx-target="#content_body">Cancel</button>
+        <input id="author-name" name="name" value="{{ author['display_name'] }}"></input>
+        <button type="submit" class="btn btn-a btn-sm smooth" hx-post="{{ url_for('author.edit', id=author['id']) }}" hx-target="#content_body">Submit</button>
+        <button type="button" class="btn btn-a btn-sm smooth" hx-post="{{ url_for('author.delete', id=author['id']) }}" hx-target="#content_body">Delete</button>
+        <button type="reset" class="btn btn-a btn-sm smooth" hx-get="{{ url_for('author.index') }}" hx-target="#content_body">Cancel</button>
     </form>
 </td>

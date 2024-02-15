@@ -1,21 +1,12 @@
 {% for msg in get_flashed_messages() %}
 <div class="flash">{{ msg }}</div>
 {% endfor %}
-<div>
-        Search Authors
-        <span class="htmx-indicator">
-            Searching...
-        </span>
-    <input class="form-control" type="search" name="search" placeholder="Begin Typing To Search Authors..."
-        hx-post="/author/search" hx-trigger="input changed delay:500ms, search" hx-target="#search-results"
-        hx-indicator=".htmx-indicator">
-</div>
-<button hx-get="{{ url_for('author.create', id=-1) }}" hx-swap="outerHTML">Add</button>
+<button class="btn btn-a btn-sm smooth" hx-get="{{ url_for('author.create', id=-1) }}" hx-swap="outerHTML">Add</button>
 <table class="table">
     <thead>
         <tr>
             <th>Name</th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody id="search-results">

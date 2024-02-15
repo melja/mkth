@@ -42,6 +42,7 @@ def profile():
     timezones=sorted(zoneinfo.available_timezones())
     return render_template("profile.html", timezones=timezones)
 
+
 @bp.route("/search", methods=("POST",))
 @login_required
 def search():

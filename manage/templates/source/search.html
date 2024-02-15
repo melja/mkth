@@ -1,0 +1,9 @@
+{% for source in sources %}
+<tr id="source{{ source['id'] }}_tr">
+    <td>{{ source['title'] }}</td>
+    <td>{{ source['author_name'] }}</td>
+    <td>
+        <a class="btn btn-sm btn-a smooth" hx-get="{{ url_for('source.edit', id=source['id']) }}" hx-target="#source{{ source['id'] }}_tr">Edit</a>
+    </td>
+</tr>
+{% endfor %}

@@ -6,9 +6,9 @@
 <nav class="nav">
     <div class="container">
         <span style="padding-right: 1em;"></span>
-        {% for type in types.keys() %}
-        <a hx-get="{{ url_for(type+'.index') }}" hx-target="#content_body"
-            hx-replace-url="{{ url_for('content.index', type=type) }}">{{types[type]}}</a>
+        {% for t in types.keys() %}
+        <a href="{{ url_for('content.index', type=t) }}" 
+            {% if type == t %}class="current"{% endif %}>{{types[t]}}</a>
         {% endfor %}
     </div>
 </nav>
@@ -16,13 +16,14 @@
 
 {% block content %}
 <div>
-    <div>
-        <span class="addon smooth">Filter:</span><input class="smooth" type="text" name="search"
-            placeholder="Begin typing To filter..." hx-post="/user/search"
-            hx-trigger="input changed delay:500ms, search" hx-target="#search-results" hx-indicator=".htmx-indicator">
+    <div style="position: relative; float: right;">
         <span class="htmx-indicator">
             Searching...
         </span>
+        <span class="smooth"> Filter:</span>
+        <input class="smooth" type="text" name="search"
+            placeholder="Begin typing To filter..." hx-post="/{{ type }}/search"
+            hx-trigger="input changed delay:500ms, search" hx-target="#search-results" hx-indicator=".htmx-indicator">
     </div>
     <div id="content_body" hx-target="#content_body" hx-trigger="load" hx-get="{{ url_for(type+'.index') }}"></div>
 </div>

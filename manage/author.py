@@ -13,9 +13,9 @@ bp = Blueprint("author", __name__, url_prefix="/author")
 def index():
     db = get_db()
     authors = db.execute(
-        "SELECT id, name"
+        "SELECT id, display_name"
         " FROM authors"
-        " ORDER BY name"
+        " ORDER BY display_name"
     ).fetchall()
     return render_template("author/list.html", authors=authors)
 
@@ -25,10 +25,10 @@ def search():
     search = request.form.get("search", default="", type=str)
     db = get_db()
     authors = db.execute(
-        "SELECT id, name"
+        "SELECT id, display_name"
         " FROM authors"
-        " WHERE name LIKE ?"
-        " ORDER BY name",
+        " WHERE display_name LIKE ?"
+        " ORDER BY display_name",
         ("%"+search+"%",)
     ).fetchall()
     return render_template("author/search.html", authors=authors)
@@ -36,7 +36,7 @@ def search():
 
 def get_author(id):
     author = get_db().execute(
-        "SELECT id, name, creation_date, last_updated, user_id"
+        "SELECT id, display_name, creation_date, last_updated"
         " FROM authors WHERE id = ?",
         (id,)
     ).fetchone()
@@ -60,7 +60,7 @@ def create():
             db = get_db()
             try:
                 db.execute(
-                    "INSERT INTO authors (name)"
+                    "INSERT INTO authors (display_name)"
                     " VALUES (?)",
                     (name,)
                 )
@@ -90,7 +90,7 @@ def edit(id):
             db = get_db()
             try:
                 db.execute(
-                    "UPDATE authors SET name = ? WHERE id = ?",
+                    "UPDATE authors SET display_name = ? WHERE id = ?",
                     (name, id)
                 )
                 db.commit()

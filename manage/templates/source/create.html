@@ -1,7 +1,7 @@
 {% for msg in get_flashed_messages() %}
 <div class="flash">{{ msg }}</div>
 {% endfor %}
-<div>
+<div id="content_body">
     <form>
         <label for="source-title">Title</label>
         <input id="source-title" name="title" placeholder="Enter the title of the source"></input>
@@ -9,7 +9,7 @@
         <select id="source-author" name="authorid">
             <option value="" disabled selected>Select an author</option>
             {% for author in authors %}
-            <option value="{{author['id']}}">{{ author["name"] }}</option>
+            <option value="{{author['id']}}">{{ author["display_name"] }}</option>
             {% endfor %}
         </select>
         <button type="submit" hx-post="{{ url_for('source.create') }}" hx-target="#content_body">Submit</button>

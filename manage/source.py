@@ -13,12 +13,30 @@ bp = Blueprint("source", __name__, url_prefix="/source")
 def index():
     db = get_db()
     sources = db.execute(
-        "SELECT s.id, s.title, a.name AS author_name"
+        "SELECT s.id, s.title, a.display_name AS author_name"
         " FROM sources AS s"
         " INNER JOIN authors as a ON s.authorid = a.id"
         " ORDER BY s.title"
     ).fetchall()
     return render_template("source/list.html", sources=sources)
+
+
+@bp.route("/search", methods=("POST",))
+@login_required
+def search():
+    search = request.form.get("search", default="", type=str)
+    db = get_db()
+    sources = db.execute(
+        "SELECT s.id, s.title, a.display_name AS author_name"
+        " FROM sources AS s"
+        " INNER JOIN authors as a ON s.authorid = a.id"
+        " WHERE s.title LIKE :search"
+        " OR a.display_name LIKE :search"
+        " ORDER BY s.title",
+        { "search": "%"+search+"%" }
+    ).fetchall()
+    return render_template("source/search.html", sources=sources)
+
 
 def get_source(id):
     source = get_db().execute(
@@ -61,9 +79,9 @@ def create():
         return redirect(url_for("source.index"))
     db = get_db()
     authors = db.execute(
-        "SELECT id, name"
+        "SELECT id, display_name"
         " FROM authors"
-        " ORDER BY name"
+        " ORDER BY display_name"
     ).fetchall()
     return render_template("source/create.html", authors=authors)
 
@@ -98,9 +116,9 @@ def edit(id):
             flash(error)
         return redirect(url_for("source.index"))
     authors = get_db().execute(
-        "SELECT id, name"
+        "SELECT id, display_name"
         " FROM authors"
-        " ORDER BY name"
+        " ORDER BY display_name"
     ).fetchall()
     return render_template("source/edit.html", source=source, authors=authors)
 

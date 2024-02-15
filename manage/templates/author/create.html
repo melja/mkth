@@ -1,9 +1,11 @@
 {% for msg in get_flashed_messages() %}
 <div class="flash">{{ msg }}</div>
 {% endfor %}
-<form>
-    <label for="author-name">Name</label>
-    <input id="author-name" name="name" placeholder="Enter the name of the author"></input>
-    <button type="submit" hx-post="{{ url_for('author.create') }}" hx-target="#content_body">Submit</button>
-    <button type="cancel" hx-get="{{ url_for('author.index') }}" hx-target="#content_body">Cancel</button>
-</form>
+<div id="content_body">
+    <form>
+        <label for="author-name">Name</label>
+        <input id="author-name" name="name" placeholder="Enter the name of the author"></input>
+        <button type="submit" class="btn btn-a btn-sm smooth" hx-post="{{ url_for('author.create') }}" hx-target="#content_body">Submit</button>
+        <button type="cancel" class="btn btn-a btn-sm smooth" hx-get="{{ url_for('author.index') }}" hx-target="#content_body">Cancel</button>
+    </form>
+</div>

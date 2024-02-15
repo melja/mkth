@@ -1,13 +1,16 @@
 {% for msg in get_flashed_messages() %}
 <div class="flash">{{ msg }}</div>
 {% endfor %}
-<button hx-get="{{ url_for('source.create', id=-1) }}" hx-swap="outerHTML">Add</button>
-<ul>
-    {% for source in sources %}
-    <li id="source{{ source['id'] }}_li">
-        {{ source['title'] }} - 
-        <span class="source-author">{{ source['author_name'] }}</span>
-        <a hx-get="{{ url_for('source.edit', id=source['id']) }}" hx-target="#source{{ source['id'] }}_li">Edit</a>
-    </li>
-    {% endfor %}
-</ul>
+<button class="btn btn-sm btn-a smooth" hx-get="{{ url_for('source.create', id=-1) }}" hx-swap="outerHTML">Add</button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="search-results">
+        {% include "source/search.html" %}
+    </tbody>
+</table>

@@ -1,3 +1,6 @@
+{% for msg in get_flashed_messages() %}
+<div class="flash">{{ msg }}</div>
+{% endfor %}
 <table class="table">
     <thead>
         <tr>
