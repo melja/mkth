@@ -132,14 +132,8 @@ def load_reference_data():
 
 def load_test_users():
     db = get_db()
-    users = [("melja",
-               "melja@pobox.com",
-               "scrypt:32768:8:1$GHtkCim9P3USWnud$da12c3c1c701ef7c7775041cd4f9585287a930bf0e810d1d741ff60b035689ad3799a33a437f4e18cc0f3b6610905f772b6cf88c1c87ebdc95983e17dcf18ea1",
-               "John Melendy",
-               "US/Pacific",
-               "US/en",),
-               ("test",
-               "test@meljh.com",
+    users = [  ("test",
+               "test@test.com",
                "scrypt:32768:8:1$GHtkCim9P3USWnud$da12c3c1c701ef7c7775041cd4f9585287a930bf0e810d1d741ff60b035689ad3799a33a437f4e18cc0f3b6610905f772b6cf88c1c87ebdc95983e17dcf18ea1",
                "Test User",
                "Europe/London",

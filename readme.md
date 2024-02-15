@@ -13,9 +13,19 @@ Make sure you have installed prerequisites:
 - Python 3.x
 - Git 2.x
 
+Creating and activating a venv is recommended before proceeding:
+`python -m venv venv`
+`source venv/bin/activate`
+
+Clone from GitHub: `git clone https://github.com/melja/mkth0`
+Install required packages: `pip install -r requirements.txt`
+Initialize database: `flask --app manage init-db`
+Import test data: `flask --app manage load-test-data`
+
 ## To run the app
  
-Debug: `flask run`
+Development: `flask --app manage run --debug`
 
-Small-scale production: `waitress-serve --listen=127.0.0.1:8080 app:app`
+The application will be running on http://127.0.0.1:5000/
+
 

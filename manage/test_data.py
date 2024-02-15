@@ -27,9 +27,9 @@ def load_authors(db):
     { "name": "Oswald P Grundersonn, MD" },
     { "name": "Editors" }
     ]
-    db.executemany("INSERT INTO authors ( name ) "
+    db.executemany("INSERT INTO authors ( display_name ) "
                    " SELECT :name "
-                   " WHERE NOT EXISTS ( SELECT 1 FROM authors WHERE name = :name );", authors)
+                   " WHERE NOT EXISTS ( SELECT 1 FROM authors WHERE display_name = :name );", authors)
     db.commit()
 
 def load_sources(db):
@@ -44,7 +44,7 @@ def load_sources(db):
     db.executemany("INSERT INTO sources ( title, authorid ) "
                    " SELECT :title, id "
                    " FROM authors "
-                   " WHERE name = :author "
+                   " WHERE display_name = :author "
                    " AND NOT EXISTS ( SELECT 1 FROM sources WHERE title = :title );" 
                    , sources)
     db.commit()
